@@ -245,11 +245,7 @@ namespace MathGame.Core
 
             for (int i = 1; i < width * height; i++)
             {
-                // FIX: bug
-
-
-                //do
-                //{
+                
                 // vyber nahodny sloupec
                 do
                 {
@@ -257,8 +253,6 @@ namespace MathGame.Core
                     int maxPossibleValue = Math.Min(3, currentLineNum + 2); // Max 3
                     lineGenNum = random.Next(minPossibleValue, maxPossibleValue);
                 } while (numbersLeft != 1 ? (NextX(lineGenNum) == 3 && lineGenNum == 3) : false);
-
-                //} while (lineGenNum != 0 && lineGenNum != 4);
 
                 if (currentLineNum > 1)
                 {
@@ -280,6 +274,12 @@ namespace MathGame.Core
             }
         }
 
+        /// <summary>
+        /// generate a random but valid number
+        /// </summary>
+        /// <param name="min"></param>
+        /// <param name="numbersLeft"></param>
+        /// <returns></returns>
         private int GenerateNewNum(int min, int numbersLeft)
         {
             int newNum;
@@ -293,8 +293,14 @@ namespace MathGame.Core
             return newNum;
         }
 
+        /// <summary>
+        /// find next avalibale slot
+        /// </summary>
+        /// <param name="y"></param>
+        /// <returns></returns>
         private int NextX(int y)
         {
+         
             for (int i = 0; i < 3; i++)
             {
                 if (map[i, y] == 0) return i;
@@ -302,6 +308,12 @@ namespace MathGame.Core
             return 0;
         }
 
+        /// <summary>
+        /// get minimum number for generation
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public int GetMin(int x, int y)
         {
             if (x == 0 && y == 0) return minValue;
@@ -318,21 +330,40 @@ namespace MathGame.Core
             return highest + 1;
         }
 
+        /// <summary>
+        /// returnes map
+        /// </summary>
+        /// <returns></returns>
         public int[,] GetMap()
         {
             return map;
         }
 
+        /// <summary>
+        /// changes map from outside
+        /// </summary>
+        /// <param name="map"></param>
         public void SetMap(int[,] map)
         {
             this.map = map;
         }
 
+        /// <summary>
+        /// returnes a specific coordenate from the map
+        /// </summary>
+        /// <param name="X"></param>
+        /// <param name="Y"></param>
+        /// <returns></returns>
         public int GetPartOfMap(int X, int Y)
         {
             return map[X, Y];
         }
 
+        /// <summary>
+        /// finds the sum of a row
+        /// </summary>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public int GetSumRow(int y)
         {
             int sum = 0;
@@ -344,6 +375,11 @@ namespace MathGame.Core
             return sum;
         }
 
+        /// <summary>
+        /// finds the sum of a column
+        /// </summary>
+        /// <param name="x"></param>
+        /// <returns></returns>
         public int GetSumColumn(int x)
         {
             int sum = 0;
@@ -355,6 +391,10 @@ namespace MathGame.Core
             return sum;
         }
 
+        /// <summary>
+        /// checks if map is valid
+        /// </summary>
+        /// <returns></returns>
         public bool CheckCorrectness()
         {
             bool isCorrect = true;
@@ -393,6 +433,9 @@ namespace MathGame.Core
             return isCorrect;
         }
 
+        /// <summary>
+        /// prints the map to the console
+        /// </summary>
         public void PrintMap()
         {
             for (int x = 0; x < map.GetLength(0); x++)
