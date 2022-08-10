@@ -269,9 +269,9 @@ namespace MathGame.Core
                     }
                 }
 
-
+                // Generate next number
                 int nextX = NextX(lineGenNum);
-                //if (nextX >= 4 || nextX <= 0) Debugger.Break();
+                if (nextX >= 4 || nextX <= 0) Debugger.Break();
 
                 int newNum = GenerateNewNum(GetMin(nextX, lineGenNum), numbersLeft);
                 currentLineNum = lineGenNum;
