@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 
 namespace MathGame.Core
 {
@@ -298,26 +299,39 @@ namespace MathGame.Core
 
         private int FindNextY()
         {
-            int col0 = CheckIfColumnHasSpace(0);
-            int col1 = CheckIfColumnHasSpace(1);
-            int col2 = CheckIfColumnHasSpace(2);
+            List<int> possibleColumns = new List<int>();
 
-            int[] columns = new int[] { col0, col1, col2 };
-            List<int> availableColumns = new List<int>();
-
-            foreach (int colIndex in columns)
+            for (int i = 0; i < width; i++)
             {
-                if (colIndex != -1) availableColumns.Add(colIndex);
+                possibleColumns.Add(CheckIfColumnHasSpace(i));
             }
+
+            List<int> availableColumns = possibleColumns.Where(col => col != -1).ToList();
 
             int index = random.Next(0, availableColumns.Count);
 
             return availableColumns[index];
+
+            //int col0 = CheckIfColumnHasSpace(0);
+            //int col1 = CheckIfColumnHasSpace(1);
+            //int col2 = CheckIfColumnHasSpace(2);
+
+            //int[] columns = new int[] { col0, col1, col2 };
+            //List<int> availableColumns = new List<int>();
+
+            //foreach (int colIndex in columns)
+            //{
+            //    if (colIndex != -1) availableColumns.Add(colIndex);
+            //}
+
+            //int index = random.Next(0, availableColumns.Count);
+
+            //return availableColumns[index];
         }
 
         private int CheckIfColumnHasSpace(int x)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < width; i++)
             {
                 if (map[x, i] == 0) return i;
             }
@@ -352,7 +366,7 @@ namespace MathGame.Core
         private int NextX(int y)
         {
          
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < height; i++)
             {
                 if (map[i, y] == 0) return i;
             }

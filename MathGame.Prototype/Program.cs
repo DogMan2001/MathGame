@@ -45,7 +45,7 @@ namespace MathGame.Prototype
                 }
                 Console.WriteLine();
 
-               // Console.ReadKey();
+               
 
             }
         }

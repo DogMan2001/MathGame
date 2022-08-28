@@ -9,7 +9,7 @@ namespace MathGame.Client
 {
     enum GameDifficulty
     {
-        Easy = 10,
+        Easy = 9,
         Medium = 18,
         Hard = 24,
     }
@@ -97,7 +97,7 @@ namespace MathGame.Client
 
             rightguesses = 0;
             // old algorithm
-            map = new Map(3, 3, (int)difficulty);
+            map = new MapBetter(3, 3, (int)difficulty);
 
             // better algorithm
             //map = new MapBettter();
