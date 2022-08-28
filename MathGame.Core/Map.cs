@@ -251,24 +251,26 @@ namespace MathGame.Core
             {
                 Console.Write($"NumbersLeft: {numbersLeft} |");
                 // vyber nahodny sloupec
-                do
-                {
-                    int minPossibleValue = Math.Max(1, currentY - 1); // Min 1
-                    int maxPossibleValue = Math.Min(3, currentY + 2); // Max 3
-                    nextY = random.Next(minPossibleValue, maxPossibleValue);
-                } while (numbersLeft != 1 ? (NextX(nextY) == 2 && nextY == 2) : false);
+                //do
+                //{
+                //    int minPossibleValue = Math.Max(1, currentY - 1); // Min 1
+                //    int maxPossibleValue = Math.Min(3, currentY + 2); // Max 3
+                //    nextY = random.Next(minPossibleValue, maxPossibleValue);
+                //} while (numbersLeft != 1 ? (NextX(nextY) == 2 && nextY == 2) : false);
+                nextY = FindNextY();
 
-                Console.WriteLine($"Got nextY: ${nextY}");
+                Console.WriteLine($"Got nextY: {nextY}");
+               
+               
+                //if (currentY > 0)
+                //{
+                //    while (nextY > 0 && NextX(nextY - 1) <= NextX(nextY))
+                //    {
+                //        nextY--;
+                //    }
 
-                if (currentY > 0)
-                {
-                    while (nextY > 0 && NextX(nextY - 1) <= NextX(nextY))
-                    {
-                        nextY--;
-                    }
-
-                    Console.WriteLine($"CurrentY (${currentY}>0: nextY: ${nextY}");
-                }
+                //    Console.WriteLine($"CurrentY ({currentY}>0: nextY: {nextY}");
+                //}
 
                 // Generate next number
                 int nextX = NextX(nextY);
@@ -294,9 +296,23 @@ namespace MathGame.Core
             }
         }
 
-        private int FindNextY(int x, int y)
+        private int FindNextY()
         {
+            int col0 = CheckIfColumnHasSpace(0);
+            int col1 = CheckIfColumnHasSpace(1);
+            int col2 = CheckIfColumnHasSpace(2);
 
+            int[] columns = new int[] { col0, col1, col2 };
+            List<int> availableColumns = new List<int>();
+
+            foreach (int colIndex in columns)
+            {
+                if (colIndex != -1) availableColumns.Add(colIndex);
+            }
+
+            int index = random.Next(0, availableColumns.Count);
+
+            return availableColumns[index];
         }
 
         private int CheckIfColumnHasSpace(int x)
