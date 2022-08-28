@@ -220,8 +220,8 @@ namespace MathGame.Core
 
         public void Generate()
         {
-            int lineGenNum;
-            int currentLineNum = 1;
+            int nextY; // V jakem radku budeme v dalsim kroku -> y - [x,y]
+            int currentY = 1; // Aktualni Y
             map = new int[width, height];
             int numbersLeft = width * height;
             usedNumbers.Clear();
@@ -240,38 +240,73 @@ namespace MathGame.Core
 
             int firstNumber = GenerateNewNum(GetMin(startpositionX, startpositionY), numbersLeft);
 
+            if (firstNumber > 15) Debugger.Break();
+
             map[startpositionX, startpositionY] = firstNumber;
             numbersLeft--;
 
-            for (int i = 1; i < width * height; i++)
+            // while(numbersLeft > 0)
+            //for (int i = 1; i < width * height; i++)
+            while(numbersLeft > 0)
             {
-                
+                Console.Write($"NumbersLeft: {numbersLeft} |");
                 // vyber nahodny sloupec
                 do
                 {
-                    int minPossibleValue = Math.Max(1, currentLineNum - 1); // Min 1
-                    int maxPossibleValue = Math.Min(3, currentLineNum + 2); // Max 3
-                    lineGenNum = random.Next(minPossibleValue, maxPossibleValue);
-                } while (numbersLeft != 1 ? (NextX(lineGenNum) == 3 && lineGenNum == 3) : false);
+                    int minPossibleValue = Math.Max(1, currentY - 1); // Min 1
+                    int maxPossibleValue = Math.Min(3, currentY + 2); // Max 3
+                    nextY = random.Next(minPossibleValue, maxPossibleValue);
+                } while (numbersLeft != 1 ? (NextX(nextY) == 2 && nextY == 2) : false);
 
-                if (currentLineNum > 1)
+                Console.WriteLine($"Got nextY: ${nextY}");
+
+                if (currentY > 0)
                 {
-                    while (NextX(lineGenNum - 1) <= NextX(lineGenNum))
+                    while (nextY > 0 && NextX(nextY - 1) <= NextX(nextY))
                     {
-                        lineGenNum--;
-                        if (lineGenNum == 1) break;
+                        nextY--;
                     }
+
+                    Console.WriteLine($"CurrentY (${currentY}>0: nextY: ${nextY}");
                 }
 
                 // Generate next number
-                int nextX = NextX(lineGenNum);
-                if (nextX >= 4 || nextX <= 0) Debugger.Break();
+                int nextX = NextX(nextY);
+                if (nextX >= 4 || nextX < 0) Debugger.Break();
 
-                int newNum = GenerateNewNum(GetMin(nextX, lineGenNum), numbersLeft);
-                currentLineNum = lineGenNum;
-                map[nextX, lineGenNum] = newNum;
+                int newMin = GetMin(nextX, nextY);
+                int newNum = GenerateNewNum(newMin, numbersLeft);
+
+                Console.WriteLine($"Next X,Y: [{nextX}, {nextY}]. NewMin: {newMin}. NewNum: {newNum}");
+
+                if (map[nextX, nextY] != 0)
+                {
+                    Debugger.Break();
+                }
+
+                currentY = nextY;
+                map[nextX, nextY] = newNum;
                 numbersLeft--;
+
+                PrintMap();
+                Console.WriteLine("------------------------------");
+                Console.WriteLine();
             }
+        }
+
+        private int FindNextY(int x, int y)
+        {
+
+        }
+
+        private int CheckIfColumnHasSpace(int x)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (map[x, i] == 0) return i;
+            }
+            //no space = -1
+            return -1;
         }
 
         /// <summary>

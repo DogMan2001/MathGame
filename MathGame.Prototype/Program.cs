@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Threading;
 
 namespace MathGame.Prototype
 {
@@ -44,6 +45,7 @@ namespace MathGame.Prototype
                 }
                 Console.WriteLine();
 
+                Console.ReadKey();
 
             }
         }
