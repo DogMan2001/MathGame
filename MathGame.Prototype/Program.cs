@@ -12,7 +12,7 @@ namespace MathGame.Prototype
         const int width = 3;
         const int height = 3;
 
-        const int maxValue = 24;
+        const int maxValue = 10;
         const int minValue = 1;
 
         static void Main(string[] args)

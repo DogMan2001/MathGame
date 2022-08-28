@@ -9,7 +9,7 @@ namespace MathGame.Client
 {
     enum GameDifficulty
     {
-        Easy = 9,
+        Easy = 10,
         Medium = 18,
         Hard = 24,
     }
